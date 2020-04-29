@@ -132,7 +132,29 @@ def fetch_production(zone_key='CL', session=None, target_datetime=None, logger=l
 
 if __name__ == "__main__":
     """Main method, never used by the Electricity Map backend, but handy for testing."""
-    print('fetch_production() ->')
-    print(fetch_production())
+    #print('fetch_production() ->')
+    Prod=fetch_production()
     # For fetching historical data instead, try:
-    ##print(fetch_procution(target_datetime=arrow.get("20200220", "YYYYMMDD"))
+    #print(fetch_production(target_datetime=arrow.get("20200220", "YYYYMMDD")))
+    
+    wind=[]
+    hydro=[]
+    for item in Prod:
+        try:
+            wind.append(item['production']['wind'])
+        except:
+            wind.append('NaN')
+        try:
+            hydro.append(item['production']['hydro'])
+        except:
+            hydro.append('NaN')    
+    
+    #%%
+    import matplotlib.pyplot as plt
+    
+    #%%
+    plt.scatter(list(range(len(wind))),wind)
+
+#%%
+    plt.scatter(list(range(len(hydro))),hydro)
+
